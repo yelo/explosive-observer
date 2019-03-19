@@ -8,5 +8,5 @@ export function getAccessTokenEndpoint(appCode) {
 }
 
 export function getApiEndpoint(target, accessToken) {
-  `${API_REST_ENDPOINT}${target}&api_key=${accessToken}&format=JSON`;
+  return `${API_REST_ENDPOINT}${target}&api_key=${accessToken}&format=JSON`;
 }

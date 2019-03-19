@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { createStackNavigator, createSwitchNavigator, createAppContainer, SafeAreaView } from "react-navigation";
 
 import AuthLoadingScreen from "./screens/AuthLoadingScreen";
