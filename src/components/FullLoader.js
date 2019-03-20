@@ -5,7 +5,7 @@ export default class FullLoader extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ActivityIndicator />
+        <ActivityIndicator color="#D84941" size="large" />
       </View>
     );
   }

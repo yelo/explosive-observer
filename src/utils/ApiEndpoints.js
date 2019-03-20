@@ -10,3 +10,7 @@ export function getAccessTokenEndpoint(appCode) {
 export function getApiEndpoint(target, accessToken) {
   return `${API_REST_ENDPOINT}${target}&api_key=${accessToken}&format=JSON`;
 }
+
+export function getVideoEndpoint(target, accessToken) {
+  return `${target}?api_key=${accessToken}`;
+}
