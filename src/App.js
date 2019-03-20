@@ -7,7 +7,12 @@
 
 import React from "react";
 import { StyleSheet } from "react-native";
-import { createStackNavigator, createSwitchNavigator, createAppContainer, SafeAreaView } from "react-navigation";
+import {
+  createStackNavigator,
+  createSwitchNavigator,
+  createAppContainer,
+  SafeAreaView
+} from "react-navigation";
 
 import AuthLoadingScreen from "./screens/AuthLoadingScreen";
 import ShowListScreen from "./screens/ShowListScreen";
@@ -16,12 +21,25 @@ import VideoScreen from "./screens/VideoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SignInScreen from "./screens/SignInScreen";
 
-const AppStack = createStackNavigator({
-  Shows: ShowListScreen,
-  Videos: VideoListScreen,
-  Video: VideoScreen,
-  Settings: SettingsScreen
-});
+const AppStack = createStackNavigator(
+  {
+    Shows: ShowListScreen,
+    Videos: VideoListScreen,
+    Video: VideoScreen,
+    Settings: SettingsScreen
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "#f4511e"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "normal"
+      }
+    }
+  }
+);
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
@@ -33,15 +51,7 @@ const AppContainer = createAppContainer(
       Auth: AuthStack
     },
     {
-      initialRouteName: "AuthLoading",
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: "#e94b4bee"
-        },
-        headerTitleStyle: {
-          fontWeight: "bold"
-        }
-      }
+      initialRouteName: "AuthLoading"
     }
   )
 );
@@ -49,7 +59,10 @@ const AppContainer = createAppContainer(
 export default class App extends React.Component {
   render() {
     return (
-      <SafeAreaView style={styles.container} forceInset={{ bottom: 'never' }}>
+      <SafeAreaView
+        style={styles.container}
+        forceInset={{ bottom: "never", top: "never" }}
+      >
         <AppContainer />
       </SafeAreaView>
     );
@@ -59,7 +72,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgb(53, 37, 64)",
-    justifyContent: "space-between"
+    backgroundColor: "#fff",
+    justifyContent: "space-around"
   }
 });

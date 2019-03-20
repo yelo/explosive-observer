@@ -1,6 +1,6 @@
 import React from "react";
-import { StatusBar, ActivityIndicator, View, StyleSheet } from "react-native";
 import { getAuthData } from "../utils/DataStorage";
+import FullLoader from "../components/FullLoader";
 
 export default class AuthLoadingScreen extends React.Component {
   constructor() {
@@ -19,18 +19,7 @@ export default class AuthLoadingScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
-      </View>
+      <FullLoader />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});

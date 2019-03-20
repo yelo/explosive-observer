@@ -18,10 +18,11 @@ export const GBVideos = types
   .actions(self => ({
     load: flow(function* load(id, offset = 0, limit = 15) {
       getAuthData().then(token => {
-        const endpoint = getApiEndpoint(
-          `/videos/?filter=video_show:${id}&offset=${offset}&limit=${limit}&sort=publish_date:desc&fieldList=name,deck,hd_url,high_url,low_url,guid,publish_date,image,user,length_seconds,url`,
-          token.token
-        );
+        let endpoint = `/videos/?offset=${offset}&limit=${limit}&offset=${offset}&limit=${limit}&sort=publish_date:desc&fieldList=name,deck,hd_url,high_url,low_url,guid,publish_date,image,user,length_seconds,url`;
+        if (id !== null) {
+          endpoint = `${endpoint}&filter=video_show:${id}`;
+        }
+        endpoint = getApiEndpoint(endpoint, token.token);
         fetch(endpoint)
           .then(response => response.json())
           .then(videos => applySnapshot(self, videos));
