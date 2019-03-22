@@ -1,5 +1,4 @@
 import React from "react";
-import { Text } from "react-native";
 import { GBShows } from "../models/gb/GBShows";
 import { observer } from "mobx-react";
 import { TouchableOpacity } from "react-native-gesture-handler";

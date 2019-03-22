@@ -4,8 +4,9 @@ import { GBVideos } from "../models/gb/GBVideos";
 import { onSnapshot } from "mobx-state-tree";
 import { observer } from "mobx-react";
 import FullLoader from "../components/FullLoader";
-import { getGlobalVideoQuality, setGlobalVideoQuality } from "../utils/DataStorage";
+import { getGlobalVideoQuality, setGlobalVideoQuality, getAuthData } from "../utils/DataStorage";
 import { VideoFlatList } from "../components/videos/VideoFlatList";
+import { getVideoEndpoint } from "../utils/ApiEndpoints";
 
 class VideoListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {

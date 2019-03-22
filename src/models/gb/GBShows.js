@@ -1,5 +1,5 @@
 import { types, flow, applySnapshot } from "mobx-state-tree";
-import { getAuthData, getFavoriteShows } from "../../utils/DataStorage";
+import { getAuthData } from "../../utils/DataStorage";
 import { getApiEndpoint } from "../../utils/ApiEndpoints";
 import { GBShow } from "./GBShow";
 
