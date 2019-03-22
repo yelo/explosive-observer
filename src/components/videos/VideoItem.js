@@ -36,7 +36,7 @@ export default class VideoItem extends React.Component {
           <TouchableOpacity>
             <Icon name="download" size={25} color="#FF3233" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.props.playVideo(item)}>
+          <TouchableOpacity onPress={() => this.props.playVideo(this.props.item)}>
             <Icon name="play-circle" size={60} color="#FF3233" />
           </TouchableOpacity>
           <TouchableOpacity

@@ -1,11 +1,10 @@
 import React from "react";
-import { Text, StyleSheet, ImageBackground, View, Linking } from "react-native";
+import { Alert, Linking } from "react-native";
 import { GBVideos } from "../models/gb/GBVideos";
 import { onSnapshot } from "mobx-state-tree";
 import { observer } from "mobx-react";
 import FullLoader from "../components/FullLoader";
-import { getAuthData } from "../utils/DataStorage";
-import { getVideoEndpoint } from "../utils/ApiEndpoints";
+import { getGlobalVideoQuality, setGlobalVideoQuality } from "../utils/DataStorage";
 import { VideoFlatList } from "../components/videos/VideoFlatList";
 
 class VideoListScreen extends React.Component {
@@ -34,13 +33,41 @@ class VideoListScreen extends React.Component {
     this.state.isLoading = false;
   };
 
+  setVideoQuality = (quality, video) => {
+    setGlobalVideoQuality(quality).then(() => {
+      this.playVideo(video);
+    })
+  }
+
   playVideo = video => {
-    getAuthData().then(token => {
-      this.props.navigation.navigate("Video", {
-        videoUrl: getVideoEndpoint(video.hd_url, token.token),
-        title: video.name
-      });
+    getGlobalVideoQuality().then(res => {
+      if (!res) {
+        Alert.alert(
+          "Select video quality",
+          "You have not selected a default video quality, please select one of the following. You can change the default video quality in the settings later if you change your mind.",
+          [
+            {
+              text: "High",
+              onPress: () => console.log("Ask me later pressed")
+            },
+            {
+              text: "Medium",
+              onPress: () => console.log("Cancel Pressed")
+            },
+            { text: "Low", onPress: () => console.log("OK Pressed") }
+          ],
+          { cancelable: false }
+        );
+      } else {
+        getAuthData().then(token => {
+          this.props.navigation.navigate("Video", {
+            videoUrl: getVideoEndpoint(video.hd_url, token.token),
+            title: video.name
+          });
+        });
+      }
     });
+
   };
 
   launchExternalSite = url => {

@@ -27,11 +27,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: "#18121D"
+    borderColor: "#18121D",
+    alignContent: "stretch",
   },
   listItemNonShowText: {
     marginLeft: 8,
     fontSize: 20,
-    color: "#eee"
-  }
+    color: "#eee",
+  },
+  singleFlex: {
+    flex: 1
+  },
 });

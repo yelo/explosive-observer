@@ -32,7 +32,7 @@ export const GBShows = types
       return self.results.filter(s => s.isFavorite);
     }
     function all() {
-      return self.results;
+      return self.results.filter(s => !s.isFavorite);
     }
 
     return {
