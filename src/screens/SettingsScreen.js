@@ -39,7 +39,6 @@ export default class SettingsScreen extends React.Component {
   constructor() {
     super();
     this._setupSettings();
-    console.log("platform", this.isIos);
   }
 
   _setupSettings = async () => {
@@ -87,7 +86,6 @@ export default class SettingsScreen extends React.Component {
   };
 
   signOut = () => {
-    console.log(this.props);
     clearAuthData().then(() => {
       this.props.navigation.replace(
         NavigationActions.navigate({
@@ -99,7 +97,6 @@ export default class SettingsScreen extends React.Component {
   };
 
   render() {
-    console.log("settings.staet", this.state);
     return (
       <ScrollView style={styles.container}>
         {/* Toggle download over mobile */}
