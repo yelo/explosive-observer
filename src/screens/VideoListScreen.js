@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, ImageBackground, View, Linking } from "react-native";
-import { GBVideos } from "../models/GBVideos";
+import { GBVideos } from "../models/gb/GBVideos";
 import { onSnapshot } from "mobx-state-tree";
 import { observer } from "mobx-react";
 import FullLoader from "../components/FullLoader";
@@ -37,7 +37,10 @@ class VideoListScreen extends React.Component {
 
   playVideo = video => {
     getAuthData().then(token => {
-      this.props.navigation.navigate("Video", { videoUrl: getVideoEndpoint(video.hd_url, token.token), title: video.name })
+      this.props.navigation.navigate("Video", {
+        videoUrl: getVideoEndpoint(video.hd_url, token.token),
+        title: video.name
+      });
     });
   };
 
@@ -85,29 +88,26 @@ _renderVideoItem = (item, props) => {
         </View>
         <View style={styles.listItemInfo}>
           <View style={styles.listItemInfoSubView}>
-            <Icon name="user" size={18} color="#D84941" />
+            <Icon name="user" size={15} color="#FF3233" />
             <Text style={styles.listItemInfoText}>{item.user}</Text>
           </View>
           <View style={styles.listItemInfoSubView}>
             <Text style={styles.listItemInfoText}>{item.publish_date}</Text>
-            <Icon name="clock-o" size={18} color="#D84941" />
+            <Icon name="clock-o" size={15} color="#FF3233" />
           </View>
         </View>
       </ImageBackground>
       <View style={styles.listViewItemInteractions}>
         <TouchableOpacity>
-          <Icon name="download" size={30} color="#D84941" />
+          <Icon name="download" size={25} color="#FF3233" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => props.playVideo(item)}>
+          <Icon name="play-circle" size={60} color="#FF3233" />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.launchExternalSite(item.site_detail_url)}
         >
-          <Icon name="external-link-square" size={30} color="#D84941" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Icon name="gear" size={30} color="#D84941" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => props.playVideo(item)}>
-          <Icon name="play" size={30} color="#D84941" />
+          <Icon name="external-link-square" size={25} color="#FF3233" />
         </TouchableOpacity>
       </View>
     </View>
@@ -117,26 +117,29 @@ _renderVideoItem = (item, props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eee",
+    backgroundColor: "#18121D",
     justifyContent: "space-between"
   },
-  listViewStyle: { backgroundColor: "#eee", height: "100%" },
+  listViewStyle: { backgroundColor: "#18121D", height: "100%" },
   listItem: {
-    backgroundColor: "#fff",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: "#ccc",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "#000",
+    backgroundColor: "#261B2D",
     padding: 10,
+    margin: 10,
     justifyContent: "space-between",
-    marginBottom: 10
+    borderRadius: 10
   },
   listViewItemInteractions: {
     padding: 15,
     paddingBottom: 0,
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between"
   },
   listItemTitle: {
-    fontSize: 18,
+    color: "#FF3233",
+    fontSize: 20,
     padding: 8
   },
   listItemInfoSubView: {
@@ -145,10 +148,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  listItemInfoText: { fontSize: 15, marginLeft: 5, marginRight: 5 },
+  listItemInfoText: {
+    alignItems: "center",
+    fontSize: 12,
+    marginLeft: 5,
+    marginRight: 5,
+    color: "#ccc"
+  },
   listItemInfo: {
-    padding: 5,
-    backgroundColor: "#ffffffff",
+    alignContent: "center",
+    padding: 2,
+    backgroundColor: "#333333ff",
     borderTopWidth: StyleSheet.hairlineWidth,
     borderBottomStartRadius: 10,
     borderBottomEndRadius: 10,
@@ -156,12 +166,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   listItemSubtitle: {
-    fontSize: 15
+    fontSize: 15,
+    color: "#eee"
   },
   listItemSubtitleView: {
-    backgroundColor: "#EEEEEECC",
-    padding: 8,
-    color: "blue"
+    backgroundColor: "#333333CC",
+    padding: 8
   },
   listItemBackground: {
     borderWidth: StyleSheet.hairlineWidth,
@@ -171,8 +181,7 @@ const styles = StyleSheet.create({
   },
   listItemBackgroundImage: {
     borderRadius: 10
-  },
-  listHeader: { padding: 4, backgroundColor: "#eee", fontWeight: "bold" },
+  }
 });
 
 export default observer(VideoListScreen);

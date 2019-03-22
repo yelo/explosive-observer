@@ -1,8 +1,8 @@
 import { types, applySnapshot } from "mobx-state-tree";
 import { GBVideo } from "./GBVideo";
 import { flow } from "mobx";
-import { getAuthData } from "../utils/DataStorage";
-import { getApiEndpoint } from "../utils/ApiEndpoints";
+import { getAuthData } from "../../utils/DataStorage";
+import { getApiEndpoint } from "../../utils/ApiEndpoints";
 
 export const GBVideos = types
   .model("GBVideos", {

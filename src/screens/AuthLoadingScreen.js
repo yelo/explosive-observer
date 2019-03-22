@@ -18,8 +18,6 @@ export default class AuthLoadingScreen extends React.Component {
   };
 
   render() {
-    return (
-      <FullLoader />
-    );
+    return <FullLoader />;
   }
 }

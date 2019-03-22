@@ -56,7 +56,6 @@ export default class VideoScreen extends React.Component {
           controls={true}
           fullscreenOrientation="landscape"
         />
-        
       </View>
     );
   }
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    position: "absolute",
+    position: "absolute"
   },
   spinnerHolder: {
     top: 0,
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     position: "absolute",
-    zIndex: 5,
+    zIndex: 5
   },
   backgroundVideo: {
     position: "absolute",

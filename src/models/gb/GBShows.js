@@ -1,6 +1,6 @@
 import { types, flow, applySnapshot, onSnapshot } from "mobx-state-tree";
-import { getAuthData } from "../utils/DataStorage";
-import { getApiEndpoint } from "../utils/ApiEndpoints";
+import { getAuthData, getFavoriteShows } from "../../utils/DataStorage";
+import { getApiEndpoint } from "../../utils/ApiEndpoints";
 import { GBShow } from "./GBShow";
 
 export const GBShows = types

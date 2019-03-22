@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import {
   createStackNavigator,
   createSwitchNavigator,
@@ -31,11 +31,11 @@ const AppStack = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: "#D84941"
+        backgroundColor: "#261B2D",
       },
-      headerTintColor: "#fff",
+      headerTintColor: "#FD4142",
       headerTitleStyle: {
-        fontWeight: "normal"
+        fontWeight: "bold"
       }
     }
   }
@@ -61,8 +61,9 @@ export default class App extends React.Component {
     return (
       <SafeAreaView
         style={styles.container}
-        forceInset={{ bottom: "never", top: "never" }}
+        forceInset={{ bottom: "never", top: "never",}}
       >
+        <StatusBar barStyle="light-content" />
         <AppContainer />
       </SafeAreaView>
     );
@@ -72,7 +73,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#261B2D",
     justifyContent: "space-around"
   }
 });

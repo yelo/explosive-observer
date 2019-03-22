@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, SectionList, StyleSheet, Alert } from "react-native";
-import { GBShows } from "../models/GBShows";
+import { GBShows } from "../models/gb/GBShows";
 import { observer } from "mobx-react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -8,13 +8,20 @@ import { onSnapshot } from "mobx-state-tree";
 import FullLoader from "../components/FullLoader";
 
 class ShowListScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: "Home",
-    headerRight: (
-      <TouchableOpacity onPress={() => this.navigateToSettings}>
-        <Icon style={{ marginRight: 10 }} name="gear" size={24} color="#000" />
-      </TouchableOpacity>
-    )
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Home",
+      headerRight: (
+        <TouchableOpacity onPress={navigation.getParam("navigateToSettings")}>
+          <Icon
+            style={{ marginRight: 10 }}
+            name="gear"
+            size={24}
+            color="#FD4142"
+          />
+        </TouchableOpacity>
+      )
+    };
   };
 
   state = {
@@ -27,6 +34,12 @@ class ShowListScreen extends React.Component {
     this.setupShows();
   }
 
+  componentDidMount() {
+    this.props.navigation.setParams({
+      navigateToSettings: this._navigateToSettings
+    });
+  }
+
   setupShows = async () => {
     const shows = GBShows.create();
     onSnapshot(shows, () => {
@@ -36,8 +49,8 @@ class ShowListScreen extends React.Component {
     this.state.isLoading = false;
   };
 
-  navigateToSettings = () => {
-    Alert.alert("Implement this");
+  _navigateToSettings = () => {
+    this.props.navigation.navigate("Settings");
   };
 
   render() {
@@ -51,15 +64,15 @@ class ShowListScreen extends React.Component {
 }
 
 const ShowList = observer(props => (
-  <View>
+  <View style={{ backgroundColor: "#18121D" }}>
     <SectionList
       sections={[
         {
           title: "Howdy, duder",
           data: [
             {
-              icon: "chrome",
-              color: "steelblue",
+              icon: "clock-o",
+              color: "#FD4142",
               title: "Latest videos",
               action: () =>
                 props.navigation.navigate("Videos", {
@@ -68,8 +81,8 @@ const ShowList = observer(props => (
                 })
             },
             {
-              icon: "home",
-              color: "steelblue",
+              icon: "bomb",
+              color: "#FD4142",
               title: "Features",
               action: () =>
                 props.navigation.navigate("Videos", {
@@ -79,13 +92,13 @@ const ShowList = observer(props => (
             },
             {
               icon: "history",
-              color: "steelblue",
+              color: "#FD4142",
               title: "Continue watching",
               action: () => null
             },
             {
               icon: "download",
-              color: "orange",
+              color: "#FD4142",
               title: "Downloads",
               action: () => null
             }
@@ -123,7 +136,7 @@ _renderNonShowItem = ({
 }) => {
   return (
     <View style={styles.listItemNonShow}>
-      <View>
+      <View style={{width:24}}>
         <Icon name={item.icon} size={25} color={item.color} />
       </View>
       <View style={styles.singleFlex}>
@@ -145,7 +158,7 @@ _renderShowItem = ({ item, index, section: { title, data, navigation } }) => {
             navigation.navigate("Videos", { id: item.id, title: item.title })
           }
         >
-          <Text>{item.title}</Text>
+          <Text style={styles.listItemText}>{item.title}</Text>
         </TouchableOpacity>
       </View>
       <View>
@@ -153,7 +166,7 @@ _renderShowItem = ({ item, index, section: { title, data, navigation } }) => {
           <Icon
             name="star"
             size={20}
-            color={item.isFavorite ? "gold" : "#eee"}
+            color={item.isFavorite ? "gold" : "#888"}
           />
         </TouchableOpacity>
       </View>
@@ -163,31 +176,44 @@ _renderShowItem = ({ item, index, section: { title, data, navigation } }) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#FD4142",
     justifyContent: "space-between"
   },
   singleFlex: {
-    flex: 1,
+    flex: 1
   },
   listItem: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: "#ccc",
+    borderColor: "#3B1E39",
     padding: 10,
+    borderColor: "#321D34",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignContent: "stretch"
+    alignContent: "stretch",
+    backgroundColor: "#18121D"
   },
   listItemNonShow: {
     padding: 10,
+    backgroundColor: "#261B2D",
     flexDirection: "row",
     justifyContent: "flex-start",
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: "#ccc"
+    borderColor: "#18121D"
+  },
+  listItemText: {
+    color: "#eee"
   },
   listItemNonShowText: {
     marginLeft: 8,
-    fontSize: 20
+    fontSize: 20,
+    color: "#eee"
   },
-  listHeader: { padding: 4, backgroundColor: "#eee", fontWeight: "bold" }
+  listHeader: {
+    padding: 4,
+    backgroundColor: "#2E2138",
+    fontWeight: "bold",
+    color: "#FF3233"
+  }
 });
 
 export default observer(ShowListScreen);

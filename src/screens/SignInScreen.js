@@ -19,11 +19,11 @@ export default class SignInScreen extends React.Component {
 
   handleAuth = async () => {
     this.setState({ isLoading: true });
-    
+
     const token = await fetchAccessToken(this.state.appCode);
-    
+
     this.setState({ isLoading: false });
-    
+
     if (token && token.status.toLowerCase() !== "failure") {
       setAuthData({ token: token.regToken, expiration: token.expiration });
       this.props.navigation.navigate("App");
