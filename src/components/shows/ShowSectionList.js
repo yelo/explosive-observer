@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, SectionList, StyleSheet, Alert } from "react-native";
+import { Text, View, SectionList, StyleSheet } from "react-native";
 import { observer } from "mobx-react";
 import ShowItem from "./ShowItem";
 import NonShowItem from "./NonShowItem";

@@ -2,7 +2,8 @@ import { types, applySnapshot } from "mobx-state-tree";
 import { GBImage } from "./GBImage";
 import {
   addShowToFavorites,
-  removeShowFromFavorites
+  removeShowFromFavorites,
+  getFavoriteShows
 } from "../../utils/DataStorage";
 
 export const GBShow = types
