@@ -4,7 +4,11 @@ import { GBVideos } from "../models/gb/GBVideos";
 import { onSnapshot } from "mobx-state-tree";
 import { observer } from "mobx-react";
 import FullLoader from "../components/FullLoader";
-import { getGlobalVideoQuality, setGlobalVideoQuality, getAuthData } from "../utils/DataStorage";
+import {
+  getGlobalVideoQuality,
+  setGlobalVideoQuality,
+  getAuthData
+} from "../utils/DataStorage";
 import { VideoFlatList } from "../components/videos/VideoFlatList";
 import { getVideoEndpoint } from "../utils/ApiEndpoints";
 
@@ -37,8 +41,8 @@ class VideoListScreen extends React.Component {
   setVideoQuality = (quality, video) => {
     setGlobalVideoQuality(quality).then(() => {
       this.playVideo(video);
-    })
-  }
+    });
+  };
 
   playVideo = video => {
     getGlobalVideoQuality().then(res => {
@@ -60,15 +64,32 @@ class VideoListScreen extends React.Component {
           { cancelable: false }
         );
       } else {
-        getAuthData().then(token => {
-          this.props.navigation.navigate("Video", {
-            videoUrl: getVideoEndpoint(video.hd_url, token.token),
-            title: video.name
-          });
-        });
+        if (video.saved_time) {
+          Alert.alert("Continue watching?", null, [
+            {
+              text: "Continue watching",
+              onPress: () => this._initVideo(video, Number(video.saved_time))
+            },
+            {
+              text: "Watch from beginning",
+              onPress: () => this._initVideo(video, 0)
+            }
+          ]);
+        } else {
+          this._initVideo(video, 0);
+        }
       }
     });
+  };
 
+  _initVideo = (video, saved_time) => {
+    getAuthData().then(token => {
+      this.props.navigation.navigate("Video", {
+        videoUrl: getVideoEndpoint(video.hd_url, token.token),
+        title: video.name,
+        savedTime: saved_time
+      });
+    });
   };
 
   launchExternalSite = url => {
@@ -76,9 +97,15 @@ class VideoListScreen extends React.Component {
   };
 
   render() {
+
     if (this.state.isLoading) {
       return <FullLoader />;
     }
+    this.state.videos.results.forEach(v => {
+      if (v.saved_time) {
+        console.log('v', v);
+      }
+    })
     return (
       <VideoFlatList
         videos={this.state.videos}

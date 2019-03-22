@@ -155,7 +155,9 @@ export default class SettingsScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 0
+    padding: 0,
+    backgroundColor: "#261B2D",
+
   },
   itemHolder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -167,13 +169,14 @@ const styles = StyleSheet.create({
     padding: 8
   },
   title: {
+    color: "#eee",
     marginTop: 5,
     fontSize: 18
   },
   qualityString: {
     marginTop: 5,
     fontSize: 18,
-    color: "blue",
+    color: "#FD4142",
     textDecorationLine: "underline"
   }
 });

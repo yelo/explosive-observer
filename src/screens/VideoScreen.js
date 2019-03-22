@@ -29,11 +29,11 @@ export default class VideoScreen extends React.Component {
 
   onLoad = evt => {
     console.log("onLoad", evt);
+    this.player.seek(this.props.navigation.getParam("savedTime", 0));
     this.setState({ isLoading: false });
   };
 
   render() {
-    console.log("isLoading?", this.state.isLoading);
     return (
       <View style={styles.container}>
         {this.state.isLoading && (
