@@ -7,6 +7,10 @@ export function getAccessTokenEndpoint(appCode) {
   return `${API_KEY_ENDPOINT}?regCode=${appCode}&format=JSON`;
 }
 
+export function getAppCodeUrl() {
+  return APP_CODE_URL;
+}
+
 export function getApiEndpoint(target, accessToken) {
   return `${API_REST_ENDPOINT}${target}&api_key=${accessToken}&format=JSON`;
 }
