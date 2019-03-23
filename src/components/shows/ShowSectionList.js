@@ -80,10 +80,10 @@ _renderNonShowItem = ({
   );
 };
 
-_renderShowItem = ({ item, index, section: { title, data, navigation } }) => {
+_renderShowItem = ({ item: show, index, section: { title, data, navigation } }) => {
   if (data.length === 0) return null;
   return (
-    <ShowItem item={item} navigation={navigation} />
+    <ShowItem show={show} navigation={navigation} />
   );
 };
 

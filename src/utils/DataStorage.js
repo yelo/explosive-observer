@@ -4,6 +4,7 @@ const AUTH_DATA_KEY = "@AUTH_DATA";
 const GLOBAL_VIDEO_QUALITY = "@GLOBAL_VIDEO_QUALITY";
 const DOWNLOAD_OVER_MOBILE = "@DOWNLOAD_OVER_MOBILE";
 const FAVORITE_SHOWS = "@FAVORITE_SHOWS";
+const FORCE_LOW_ON_MOBILE = "@FORCE_LOW_ON_MOBILE";
 
 export async function setAuthData(authData) {
   return await set(AUTH_DATA_KEY, authData);
@@ -19,6 +20,14 @@ export async function getGlobalVideoQuality() {
 
 export async function clearAuthData() {
   return await clear(AUTH_DATA_KEY);
+}
+
+export async function getForceLowOnMobile() {
+  return get(FORCE_LOW_ON_MOBILE);
+}
+
+export async function setForceLowOnMobile(force) {
+  return await set(FORCE_LOW_ON_MOBILE, force);
 }
 
 export async function setGlobalVideoQuality(quality) {

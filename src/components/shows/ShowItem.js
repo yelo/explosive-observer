@@ -10,18 +10,18 @@ export default class ShowItem extends React.Component {
         <View style={styles.singleFlex}>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate("Videos", { id: this.props.item.id, title: this.props.item.title })
+              this.props.navigation.navigate("Videos", { id: this.props.show.id, title: this.props.show.title })
             }
           >
-            <Text style={styles.listItemText}>{this.props.item.title}</Text>
+            <Text style={styles.listItemText}>{this.props.show.title}</Text>
           </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity onPress={() => this.props.item.toggleFavorite()}>
+          <TouchableOpacity onPress={() => this.props.show.toggleFavorite()}>
             <Icon
               name="star"
               size={20}
-              color={this.props.item.isFavorite ? "gold" : "#888"}
+              color={this.props.show.isFavorite ? "gold" : "#888"}
             />
           </TouchableOpacity>
         </View>

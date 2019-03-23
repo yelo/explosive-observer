@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import Video from "react-native-video";
 import FullLoader from "../components/FullLoader";
 import { getApiEndpoint } from "../utils/ApiEndpoints";
-import { getAuthData, getGlobalVideoQuality } from "../utils/DataStorage";
+import { getAuthData } from "../utils/DataStorage";
 
 export default class VideoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -16,26 +16,26 @@ export default class VideoScreen extends React.Component {
     isLoading: true
   };
 
-  onLoad = evt => {
+  onLoad = () => {
     const resume = this.props.navigation.getParam("resume", false);
     const savedTime = this.props.navigation.getParam("savedTime", 0);
     this.player.seek(resume ? savedTime : 0);
     this.setState({ isLoading: false });
   };
 
-  onProgress = evt => {
-    if (evt.currentTime <= 0) return;
+  onProgress = event => {
+    if (event.currentTime <= 0) return;
 
     const video = this.props.navigation.getParam("video", null);
     getAuthData().then(token => {
       let endpoint = getApiEndpoint(
         `/video/save-time/?video_id=${video.id}&time_to_save=${
-          evt.currentTime
+          event.currentTime
         }`,
         token.token
       );
-      fetch(endpoint).then(res => {
-        video.updateSavedTime(evt.currentTime);
+      fetch(endpoint).then(() => {
+        video.updateSavedTime(event.currentTime);
       });
     });
   };

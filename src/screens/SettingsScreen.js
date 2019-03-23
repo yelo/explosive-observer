@@ -12,7 +12,9 @@ import {
   getDownloadOverMobile,
   setGlobalVideoQuality,
   setDownloadOverMobile,
-  clearAuthData
+  setForceLowOnMobile,
+  clearAuthData,
+  getForceLowOnMobile
 } from "../utils/DataStorage";
 import {
   ScrollView,
@@ -30,7 +32,7 @@ export default class SettingsScreen extends React.Component {
     downloadOverMobile: null,
     globalVideoQuality: null,
     qualityString: null,
-    forceLowOnMobile: false,
+    forceLowOnMobile: false
   };
 
   isIos = Platform.OS === "ios";
@@ -45,8 +47,10 @@ export default class SettingsScreen extends React.Component {
   _setupSettings = async () => {
     const globalVideoQuality = await getGlobalVideoQuality();
     const downloadOverMobile = await getDownloadOverMobile();
+    const forceLowOnMobile = await getForceLowOnMobile();
     this.setState({ globalVideoQuality: globalVideoQuality || "low" });
     this.setState({ downloadOverMobile: downloadOverMobile || false });
+    this.setState({ forceLowOnMobile: forceLowOnMobile || false });
     this.setState({
       qualityString: this.getVideoQualityString(this.state.globalVideoQuality)
     });
@@ -68,8 +72,10 @@ export default class SettingsScreen extends React.Component {
   };
 
   setForceLowOnMobile = forceLowOnMobile => {
-    this.setState({ forceLowOnMobile });
-  }
+    setForceLowOnMobile(forceLowOnMobile).then(() => {
+      this.setState({ forceLowOnMobile });
+    })
+  };
 
   getVideoQualityString = () => {
     if (typeof this.state.globalVideoQuality !== "string") return "";

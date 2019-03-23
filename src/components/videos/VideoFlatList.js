@@ -8,16 +8,16 @@ export const VideoFlatList = observer(props => (
   <View style={styles.listViewStyle}>
     <FlatList
       data={props.videos.results.slice()}
-      renderItem={({ item }) => _renderVideoItem(item, props)}
+      renderItem={({ item: video }) => _renderVideoItem(video, props)}
       keyExtractor={(_item, index) => index.toString()}
     />
   </View>
 ));
 
-_renderVideoItem = (item, props) => {
+_renderVideoItem = (video, props) => {
   return (
     <VideoItem
-      item={item}
+      video={video}
       playVideo={props.playVideo}
       launchExternalSite={props.launchExternalSite}
     />

@@ -7,26 +7,26 @@ export default class VideoItem extends React.Component {
   render() {
     return (
       <View style={styles.listItem}>
-        <Text style={styles.listItemTitle}>{this.props.item.name}</Text>
+        <Text style={styles.listItemTitle}>{this.props.video.name}</Text>
 
         <ImageBackground
           style={styles.listItemBackground}
           imageStyle={styles.listItemBackgroundImage}
-          source={{ uri: this.props.item.image.screen_url, cache: "default" }}
+          source={{ uri: this.props.video.image.medium_url, cache: "default" }}
         >
           <View style={styles.listItemSubtitleView}>
-            <Text style={styles.listItemSubtitle}>{this.props.item.deck}</Text>
+            <Text style={styles.listItemSubtitle}>{this.props.video.deck}</Text>
           </View>
           <View style={styles.listItemInfo}>
             <View style={styles.listItemInfoSubView}>
               <Icon name="user" size={15} color="#FF3233" />
               <Text style={styles.listItemInfoText}>
-                {this.props.item.user}
+                {this.props.video.user}
               </Text>
             </View>
             <View style={styles.listItemInfoSubView}>
               <Text style={styles.listItemInfoText}>
-                {this.props.item.publish_date}
+                {this.props.video.publish_date}
               </Text>
               <Icon name="clock-o" size={15} color="#FF3233" />
             </View>
@@ -36,12 +36,12 @@ export default class VideoItem extends React.Component {
           <TouchableOpacity>
             <Icon name="download" size={25} color="#FF3233" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.props.playVideo(this.props.item)}>
+          <TouchableOpacity onPress={() => this.props.playVideo(this.props.video)}>
             <Icon name="play-circle" size={60} color="#FF3233" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              this.props.launchExternalSite(this.props.item.site_detail_url)
+              this.props.launchExternalSite(this.props.video.site_detail_url)
             }
           >
             <Icon name="external-link-square" size={25} color="#FF3233" />
