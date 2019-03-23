@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, View, Linking, TouchableOpacity } from "react-native";
+import { Alert, View, Linking, TouchableOpacity, NetInfo } from "react-native";
 import { GBVideos } from "../models/gb/GBVideos";
 import { onSnapshot } from "mobx-state-tree";
 import { observer } from "mobx-react";
@@ -8,7 +8,8 @@ import FullLoader from "../components/FullLoader";
 import {
   getGlobalVideoQuality,
   setGlobalVideoQuality,
-  getAuthData
+  getAuthData,
+  getForceLowOnMobile
 } from "../utils/DataStorage";
 import { VideoFlatList } from "../components/videos/VideoFlatList";
 import { getVideoEndpoint } from "../utils/ApiEndpoints";
@@ -129,6 +130,11 @@ class VideoListScreen extends React.Component {
   };
 
   _getVideoUrl = async video => {
+    const forceLow = await getForceLowOnMobile();
+    const netInfo = await NetInfo.getConnectionInfo();
+
+    if (forceLow && netInfo.type !== "wifi") return video.low_url;
+
     const quality = await getGlobalVideoQuality();
     switch (quality) {
       case "hd":
