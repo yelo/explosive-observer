@@ -13,11 +13,7 @@ export default class VideoScreen extends React.Component {
   };
 
   state = {
-    isLoading: false
-  };
-
-  onLoadStart = evt => {
-    this.setState({ isLoading: true });
+    isLoading: true
   };
 
   onLoad = evt => {
@@ -63,7 +59,6 @@ export default class VideoScreen extends React.Component {
           }}
           progressUpdateInterval={1000 * 10}
           onProgress={this.onProgress}
-          onLoadStart={this.onLoadStart}
           onLoad={this.onLoad}
           style={styles.backgroundVideo}
           controls={true}
