@@ -3,14 +3,36 @@ import { Text, View, SectionList, StyleSheet } from "react-native";
 import { observer } from "mobx-react";
 import ShowItem from "./ShowItem";
 import NonShowItem from "./NonShowItem";
+import LiveVideoItem from "../LiveVideoItem";
+import { getLiveVideo } from "../../utils/ApiEndpoints";
 
 class ShowSectionList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFetching: false
+      isFetching: false,
+      liveVideo: null
     };
   }
+
+  liveCheckInterval = null;
+
+  componentDidMount() {
+    this._checkForLiveShow();
+  }
+
+  componentWillUnmount() {
+    if (liveCheckInterval) {
+      clearTimeout(liveCheckInterval);
+    }
+  }
+
+  _checkForLiveShow = async () => {
+    this.setState({ liveVideo: await getLiveVideo() });
+    this.liveCheckInterval = setInterval(async () => {
+      this.setState({ liveVideo: await getLiveVideo() });
+    }, 1000 * 60 * 10);
+  };
 
   renderSectionHeader = section => {
     if (section.data.length === 0) return null;
@@ -34,11 +56,22 @@ class ShowSectionList extends React.Component {
     return <ShowItem show={show} navigation={navigation} />;
   };
 
+  renderLiveItem = ({ item, index, section: { title, data, navigation } }) => {
+    return item;
+  };
+
   render() {
     return (
       <View style={{ backgroundColor: "#18121D" }}>
         <SectionList
           sections={[
+            {
+              title: "Live",
+              data: this.state.liveVideo
+                ? [<LiveVideoItem video={this.state.liveVideo} />]
+                : [],
+              renderItem: this.renderLiveItem
+            },
             {
               title: "Howdy, duder",
               data: [

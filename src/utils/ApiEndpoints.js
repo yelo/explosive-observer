@@ -1,3 +1,5 @@
+import { getAuthData } from "./DataStorage";
+
 const APP_CODE_URL = "https://www.giantbomb.com/app/explosiveobserver/";
 const API_KEY_ENDPOINT =
   "https://www.giantbomb.com/app/explosiveobserver/get-result";
@@ -17,4 +19,10 @@ export function getApiEndpoint(target, accessToken) {
 
 export function getVideoEndpoint(target, accessToken) {
   return `${target}?api_key=${accessToken}`;
+}
+
+export async function getLiveVideo() {
+  const token = await getAuthData();
+  const endpoint = getApiEndpoint("/video/current-live/?", token.token);
+  return await fetch(endpoint).then(res => res.json()).then(live => live.video);
 }
