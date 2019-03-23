@@ -1,4 +1,4 @@
-import { types } from "mobx-state-tree";
+import { types, applySnapshot } from "mobx-state-tree";
 import { GBImage } from "./GBImage";
 
 export const GBVideo = types.model("GBVideo", {
@@ -19,4 +19,9 @@ export const GBVideo = types.model("GBVideo", {
   user: types.maybe(types.string),
   video_type: types.maybeNull(types.string),  
   saved_time: types.maybeNull(types.string),
-});
+}).actions(self => ({
+  updateSavedTime(time) {
+    self.saved_time = time.toString();
+    applySnapshot(self, self);
+  }
+}));

@@ -73,6 +73,8 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: "100%",
+    width: "100%",
     backgroundColor: "#261B2D",
     justifyContent: "space-around"
   }

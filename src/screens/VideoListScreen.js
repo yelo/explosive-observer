@@ -1,8 +1,9 @@
 import React from "react";
-import { Alert, Linking } from "react-native";
+import { Alert, View, Linking, TouchableOpacity } from "react-native";
 import { GBVideos } from "../models/gb/GBVideos";
 import { onSnapshot } from "mobx-state-tree";
 import { observer } from "mobx-react";
+import Icon from "react-native-vector-icons/FontAwesome";
 import FullLoader from "../components/FullLoader";
 import {
   getGlobalVideoQuality,
@@ -11,11 +12,34 @@ import {
 } from "../utils/DataStorage";
 import { VideoFlatList } from "../components/videos/VideoFlatList";
 import { getVideoEndpoint } from "../utils/ApiEndpoints";
+import ChromeCastControl from "../components/ChromeCastControl";
+import GoogleCast, { CastButton } from "react-native-google-cast";
 
 class VideoListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam("title", "Videos")
+      title: navigation.getParam("title", "Videos"),
+      headerRight: (
+        <View
+          style={{
+            width: 100,
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end"
+          }}
+        >
+          <CastButton style={{ width: 24, height: 24, tintColor: "#FD4142" }} />
+          <TouchableOpacity onPress={navigation.getParam("navigateToSettings")}>
+            <Icon
+              style={{ marginRight: 10 }}
+              name="gear"
+              size={24}
+              color="#FD4142"
+            />
+          </TouchableOpacity>
+        </View>
+      )
     };
   };
 
@@ -29,13 +53,22 @@ class VideoListScreen extends React.Component {
     this.setupVideos(this.props.navigation.getParam("id", 0));
   }
 
+  componentDidMount() {
+    this.props.navigation.setParams({
+      navigateToSettings: this._navigateToSettings
+    });
+  }
+
+  _navigateToSettings = () => {
+    this.props.navigation.navigate("Settings");
+  };
+
   setupVideos = async id => {
     const videos = GBVideos.create();
     onSnapshot(videos, () => {
-      this.setState({ videos });
+      this.setState({ videos, isLoading: false });
     });
     await videos.load(id);
-    this.state.isLoading = false;
   };
 
   setVideoQuality = (quality, video) => {
@@ -52,14 +85,14 @@ class VideoListScreen extends React.Component {
           "You have not selected a default video quality, please select one of the following. You can change the default video quality in the settings later if you change your mind.",
           [
             {
-              text: "High",
-              onPress: () => console.log("Ask me later pressed")
+              text: "HD",
+              onPress: () => this.setVideoQuality("hd")
             },
             {
-              text: "Medium",
-              onPress: () => console.log("Cancel Pressed")
+              text: "High",
+              onPress: () => this.setVideoQuality("high")
             },
-            { text: "Low", onPress: () => console.log("OK Pressed") }
+            { text: "Low", onPress: () => this.setVideoQuality("low") }
           ],
           { cancelable: false }
         );
@@ -82,37 +115,51 @@ class VideoListScreen extends React.Component {
     });
   };
 
-  _initVideo = (video, saved_time) => {
+  _initVideo = async (video, saved_time) => {
+    const url = await this._getVideoUrl(video);
     getAuthData().then(token => {
       this.props.navigation.navigate("Video", {
-        videoUrl: getVideoEndpoint(video.hd_url, token.token),
+        video: video,
+        url: getVideoEndpoint(url, token.token),
         title: video.name,
-        savedTime: saved_time
+        savedTime: saved_time,
+        resume: saved_time > 0
       });
     });
   };
+
+  _getVideoUrl = async video => {
+    const quality = await getGlobalVideoQuality();
+    switch (quality) {
+      case "hd":
+        return video.hd_url;
+      case "high":
+        return video.high_url;
+      case "low":
+        return video.low_url;
+      default:
+        return video.low_url;
+    }
+  }
 
   launchExternalSite = url => {
     Linking.openURL(url);
   };
 
   render() {
-
     if (this.state.isLoading) {
       return <FullLoader />;
     }
-    this.state.videos.results.forEach(v => {
-      if (v.saved_time) {
-        console.log('v', v);
-      }
-    })
     return (
-      <VideoFlatList
-        videos={this.state.videos}
-        navigation={this.props.navigation}
-        playVideo={this.playVideo}
-        launchExternalSite={this.launchExternalSite}
-      />
+      <View>
+        <VideoFlatList
+          videos={this.state.videos}
+          navigation={this.props.navigation}
+          playVideo={this.playVideo}
+          launchExternalSite={this.launchExternalSite}
+        />
+        <ChromeCastControl />
+      </View>
     );
   }
 }

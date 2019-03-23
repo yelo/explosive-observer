@@ -2,6 +2,8 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import Video from "react-native-video";
 import FullLoader from "../components/FullLoader";
+import { getApiEndpoint } from "../utils/ApiEndpoints";
+import { getAuthData, getGlobalVideoQuality } from "../utils/DataStorage";
 
 export default class VideoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -14,24 +16,37 @@ export default class VideoScreen extends React.Component {
     isLoading: false
   };
 
-  onBuffer = evt => {
-    console.log("onBuffer", evt);
-  };
-
-  videoError = err => {
-    console.log("videoError", err);
-  };
-
   onLoadStart = evt => {
-    console.log("onLoadStart", evt);
     this.setState({ isLoading: true });
   };
 
   onLoad = evt => {
-    console.log("onLoad", evt);
-    this.player.seek(this.props.navigation.getParam("savedTime", 0));
+    const resume = this.props.navigation.getParam("resume", false);
+    const savedTime = this.props.navigation.getParam("savedTime", 0);
+    this.player.seek(resume ? savedTime : 0);
     this.setState({ isLoading: false });
   };
+
+  onProgress = evt => {
+    if (evt.currentTime <= 0) return;
+
+    const video = this.props.navigation.getParam("video", null);
+    getAuthData().then(token => {
+      let endpoint = getApiEndpoint(
+        `/video/save-time/?video_id=${video.id}&time_to_save=${
+          evt.currentTime
+        }`,
+        token.token
+      );
+      fetch(endpoint).then(res => {
+        video.updateSavedTime(evt.currentTime);
+      });
+    });
+  };
+
+  componentWillUnmount() {
+    this.player = null;
+  }
 
   render() {
     return (
@@ -41,20 +56,17 @@ export default class VideoScreen extends React.Component {
             <FullLoader />
           </View>
         )}
-
         <Video
-          source={{ uri: this.props.navigation.getParam("videoUrl", "n/a") }}
+          source={{ uri: this.props.navigation.getParam("url", null) }}
           ref={ref => {
             this.player = ref;
           }}
-          onBuffer={this.onBuffer}
-          onError={this.videoError}
+          progressUpdateInterval={1000 * 10}
+          onProgress={this.onProgress}
           onLoadStart={this.onLoadStart}
           onLoad={this.onLoad}
           style={styles.backgroundVideo}
-          fullscreen={true}
           controls={true}
-          fullscreenOrientation="landscape"
         />
       </View>
     );
@@ -63,11 +75,9 @@ export default class VideoScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    position: "absolute"
+    width: "100%",
+    height: "100%",
+    flex: 1
   },
   spinnerHolder: {
     top: 0,
@@ -78,11 +88,9 @@ const styles = StyleSheet.create({
     zIndex: 5
   },
   backgroundVideo: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
+    height: "100%",
+    width: "100%",
+    flex: 1,
     backgroundColor: "#000"
   }
 });

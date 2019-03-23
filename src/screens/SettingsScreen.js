@@ -27,14 +27,15 @@ export default class SettingsScreen extends React.Component {
   };
 
   state = {
-    downloadOverWifi: null,
+    downloadOverMobile: null,
     globalVideoQuality: null,
-    qualityString: null
+    qualityString: null,
+    forceLowOnMobile: false,
   };
 
   isIos = Platform.OS === "ios";
 
-  videoQualities = ["High", "Medium", "Low"];
+  videoQualities = ["Hd", "High", "Low"];
 
   constructor() {
     super();
@@ -43,9 +44,9 @@ export default class SettingsScreen extends React.Component {
 
   _setupSettings = async () => {
     const globalVideoQuality = await getGlobalVideoQuality();
-    const downloadOverWifi = await getDownloadOverMobile();
-    this.setState({ globalVideoQuality: globalVideoQuality || "high" });
-    this.setState({ downloadOverWifi: downloadOverWifi || false });
+    const downloadOverMobile = await getDownloadOverMobile();
+    this.setState({ globalVideoQuality: globalVideoQuality || "low" });
+    this.setState({ downloadOverMobile: downloadOverMobile || false });
     this.setState({
       qualityString: this.getVideoQualityString(this.state.globalVideoQuality)
     });
@@ -60,11 +61,15 @@ export default class SettingsScreen extends React.Component {
     });
   };
 
-  setDownloadOverMobile = downloadOverWifi => {
-    setDownloadOverMobile(downloadOverWifi).then(() => {
-      this.setState({ downloadOverWifi });
+  setDownloadOverMobile = downloadOverMobile => {
+    setDownloadOverMobile(downloadOverMobile).then(() => {
+      this.setState({ downloadOverMobile });
     });
   };
+
+  setForceLowOnMobile = forceLowOnMobile => {
+    this.setState({ forceLowOnMobile });
+  }
 
   getVideoQualityString = () => {
     if (typeof this.state.globalVideoQuality !== "string") return "";
@@ -102,11 +107,24 @@ export default class SettingsScreen extends React.Component {
         {/* Toggle download over mobile */}
         <View style={styles.itemHolder}>
           <View style={styles.itemContainer}>
-            <Text style={styles.title}>Download over mobile data?</Text>
+            <Text style={styles.title}>Download over mobile?</Text>
             <Switch
-              value={this.state.downloadOverWifi}
-              onValueChange={downloadOverWifi =>
-                this.setDownloadOverMobile(downloadOverWifi)
+              value={this.state.downloadOverMobile}
+              onValueChange={downloadOverMobile =>
+                this.setDownloadOverMobile(downloadOverMobile)
+              }
+            />
+          </View>
+        </View>
+
+        {/* Force low over mobile  */}
+        <View style={styles.itemHolder}>
+          <View style={styles.itemContainer}>
+            <Text style={styles.title}>Force low quality over mobile?</Text>
+            <Switch
+              value={this.state.forceLowOnMobile}
+              onValueChange={forceLowOnMobile =>
+                this.setForceLowOnMobile(forceLowOnMobile)
               }
             />
           </View>
@@ -132,8 +150,8 @@ export default class SettingsScreen extends React.Component {
                   this.setVideoQuality(itemValue)
                 }
               >
+                <Picker.Item label="Hd" value="hd" />
                 <Picker.Item label="High" value="high" />
-                <Picker.Item label="Medium" value="medium" />
                 <Picker.Item label="Low" value="low" />
               </Picker>
             )}
@@ -156,8 +174,7 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    backgroundColor: "#261B2D",
-
+    backgroundColor: "#261B2D"
   },
   itemHolder: {
     borderBottomWidth: StyleSheet.hairlineWidth,

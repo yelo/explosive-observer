@@ -49,7 +49,7 @@ class ShowListScreen extends React.Component {
       this.setState({ shows, isLoading: false });
     });
     getFavoriteShows().then(favs => {
-      shows.load(favs);
+      shows.load(favs || []);
     });
   };
 

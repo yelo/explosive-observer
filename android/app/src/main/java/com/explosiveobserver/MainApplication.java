@@ -3,6 +3,7 @@ package com.explosiveobserver;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnative.googlecast.GoogleCastPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -11,6 +12,8 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+
+import com.reactnative.googlecast.GoogleCastPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,10 +30,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new GoogleCastPackage(),
             new ReactVideoPackage(),
             new VectorIconsPackage(),
             new AsyncStoragePackage(),
-            new RNGestureHandlerPackage()
+            new RNGestureHandlerPackage(),
       );
     }
 

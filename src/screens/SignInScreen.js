@@ -6,7 +6,7 @@ import {
   WebView,
   StyleSheet,
   Alert,
-  ActivityIndicator
+  KeyboardAvoidingView
 } from "react-native";
 import { fetchAccessToken } from "../utils/Authenticator";
 import { setAuthData } from "../utils/DataStorage";
@@ -29,7 +29,7 @@ export default class SignInScreen extends React.Component {
   };
   state = {
     appCode: null,
-    isLoading: false,
+    isLoading: false
   };
 
   handleAuth = async () => {
@@ -55,34 +55,36 @@ export default class SignInScreen extends React.Component {
       return <FullLoader />;
     }
     return (
-      <View style={styles.container}>
-        <Text style={styles.infoText}>
-          Login and enter the code displayed below into the input field, then
-          tap 'Continue' to begin the authentication
-        </Text>
-        <View style={styles.webView}>
-          <WebView
-            style={{ backgroundColor: "#333" }}
-            source={{ uri: getAppCodeUrl() }}
-          />
-        </View>
-        <TextInput
-          placeholderTextColor="#888"
-          placeholder="Code goes here"
-          style={styles.input}
-          onChangeText={appCode => this.setState({ appCode })}
-        />
-
-        <TouchableOpacity
-          ref={this.loginButton}
-          styles={styles.touchable}
-          onPress={this.handleAuth}
-        >
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Continue</Text>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <View style={styles.container}>
+          <Text style={styles.infoText}>
+            Login and enter the code displayed below into the input field, then
+            tap 'Continue' to begin the authentication
+          </Text>
+          <View style={styles.webView}>
+            <WebView
+              style={{ backgroundColor: "#333" }}
+              source={{ uri: getAppCodeUrl() }}
+            />
           </View>
-        </TouchableOpacity>
-      </View>
+          <TextInput
+            placeholderTextColor="#888"
+            placeholder="Code goes here"
+            style={styles.input}
+            onChangeText={appCode => this.setState({ appCode })}
+          />
+
+          <TouchableOpacity
+            ref={this.loginButton}
+            styles={styles.touchable}
+            onPress={this.handleAuth}
+          >
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Continue</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
