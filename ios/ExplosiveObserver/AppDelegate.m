@@ -30,8 +30,10 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-GCKDiscoveryCriteria *criteria = [[GCKDiscoveryCriteria alloc] initWithApplicationID:@"F0EC57BC"];
+GCKDiscoveryCriteria *criteria = [[GCKDiscoveryCriteria alloc] initWithApplicationID:kGCKDefaultMediaReceiverApplicationID];
 GCKCastOptions* options = [[GCKCastOptions alloc] initWithDiscoveryCriteria:criteria];
+options.physicalVolumeButtonsWillControlDeviceVolume = YES;
+
 [GCKCastContext setSharedInstanceWithOptions:options];
   return YES;
 }

@@ -5,7 +5,9 @@ import GoogleCast from "react-native-google-cast";
 
 export default class ChromeCastControl extends React.Component {
   componentDidMount() {
-    console.log("cast", GoogleCast);
+    GoogleCast.EventEmitter.addListener(GoogleCast.SESSION_START_FAILED, error => {
+      console.error("errir", error)
+    })
   }
   render() {
     return (

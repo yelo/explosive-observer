@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { onSnapshot } from "mobx-state-tree";
 import FullLoader from "../components/FullLoader";
-import { ShowSectionList } from "../components/shows/ShowSectionList";
+import ShowSectionList from "../components/shows/ShowSectionList";
 import { getFavoriteShows } from "../utils/DataStorage";
 
 class ShowListScreen extends React.Component {
@@ -29,8 +29,6 @@ class ShowListScreen extends React.Component {
     isLoading: true,
     shows: {}
   };
-
-  favoriteShows = [];
 
   constructor() {
     super();

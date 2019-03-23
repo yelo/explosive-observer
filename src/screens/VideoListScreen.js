@@ -1,20 +1,13 @@
 import React from "react";
-import { Alert, View, Linking, TouchableOpacity, NetInfo } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { GBVideos } from "../models/gb/GBVideos";
 import { onSnapshot } from "mobx-state-tree";
 import { observer } from "mobx-react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import FullLoader from "../components/FullLoader";
-import {
-  getGlobalVideoQuality,
-  setGlobalVideoQuality,
-  getAuthData,
-  getForceLowOnMobile
-} from "../utils/DataStorage";
-import { VideoFlatList } from "../components/videos/VideoFlatList";
-import { getVideoEndpoint } from "../utils/ApiEndpoints";
 import ChromeCastControl from "../components/ChromeCastControl";
 import GoogleCast, { CastButton } from "react-native-google-cast";
+import VideoFlatList from "../components/videos/VideoFlatList";
 
 class VideoListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -30,7 +23,14 @@ class VideoListScreen extends React.Component {
             justifyContent: "flex-end"
           }}
         >
-          <CastButton style={{ marginRight: 10, width: 24, height: 24, tintColor: "brightred" }} />
+          <CastButton
+            style={{
+              marginRight: 10,
+              width: 24,
+              height: 24,
+              tintColor: "brightred"
+            }}
+          />
           <TouchableOpacity onPress={navigation.getParam("navigateToSettings")}>
             <Icon
               style={{ marginRight: 10 }}
@@ -58,6 +58,7 @@ class VideoListScreen extends React.Component {
     this.props.navigation.setParams({
       navigateToSettings: this._navigateToSettings
     });
+    GoogleCast.showIntroductoryOverlay();
   }
 
   _navigateToSettings = () => {
@@ -70,86 +71,6 @@ class VideoListScreen extends React.Component {
       this.setState({ videos, isLoading: false });
     });
     await videos.load(id);
-  };
-
-  setVideoQuality = (quality, video) => {
-    setGlobalVideoQuality(quality).then(() => {
-      this.playVideo(video);
-    });
-  };
-
-  playVideo = video => {
-    getGlobalVideoQuality().then(res => {
-      if (!res) {
-        Alert.alert(
-          "Select video quality",
-          "You have not selected a default video quality, please select one of the following. You can change the default video quality in the settings later if you change your mind.",
-          [
-            {
-              text: "HD",
-              onPress: () => this.setVideoQuality("hd")
-            },
-            {
-              text: "High",
-              onPress: () => this.setVideoQuality("high")
-            },
-            { text: "Low", onPress: () => this.setVideoQuality("low") }
-          ],
-          { cancelable: false }
-        );
-      } else {
-        if (video.saved_time) {
-          Alert.alert("Continue watching?", null, [
-            {
-              text: "Continue watching",
-              onPress: () => this._initVideo(video, Number(video.saved_time))
-            },
-            {
-              text: "Watch from beginning",
-              onPress: () => this._initVideo(video, 0)
-            }
-          ]);
-        } else {
-          this._initVideo(video, 0);
-        }
-      }
-    });
-  };
-
-  _initVideo = async (video, saved_time) => {
-    const url = await this._getVideoUrl(video);
-    getAuthData().then(token => {
-      this.props.navigation.navigate("Video", {
-        video: video,
-        url: getVideoEndpoint(url, token.token),
-        title: video.name,
-        savedTime: saved_time,
-        resume: saved_time > 0
-      });
-    });
-  };
-
-  _getVideoUrl = async video => {
-    const forceLow = await getForceLowOnMobile();
-    const netInfo = await NetInfo.getConnectionInfo();
-
-    if (forceLow && netInfo.type !== "wifi") return video.low_url;
-
-    const quality = await getGlobalVideoQuality();
-    switch (quality) {
-      case "hd":
-        return video.hd_url;
-      case "high":
-        return video.high_url;
-      case "low":
-        return video.low_url;
-      default:
-        return video.low_url;
-    }
-  }
-
-  launchExternalSite = url => {
-    Linking.openURL(url);
   };
 
   render() {
