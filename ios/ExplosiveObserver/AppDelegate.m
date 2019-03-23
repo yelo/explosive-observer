@@ -30,7 +30,7 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-GCKDiscoveryCriteria *criteria = [[GCKDiscoveryCriteria alloc] initWithApplicationID:kGCKDefaultMediaReceiverApplicationID];
+GCKDiscoveryCriteria *criteria = [[GCKDiscoveryCriteria alloc] initWithApplicationID:@"F0EC57BC"];
 GCKCastOptions* options = [[GCKCastOptions alloc] initWithDiscoveryCriteria:criteria];
 [GCKCastContext setSharedInstanceWithOptions:options];
   return YES;

@@ -1,8 +1,12 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import GoogleCast from "react-native-google-cast";
 
 export default class ChromeCastControl extends React.Component {
+  componentDidMount() {
+    console.log("cast", GoogleCast);
+  }
   render() {
     return (
       <View style={styles.chromeCast}>

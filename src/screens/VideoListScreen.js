@@ -30,7 +30,7 @@ class VideoListScreen extends React.Component {
             justifyContent: "flex-end"
           }}
         >
-          <CastButton style={{ width: 24, height: 24, tintColor: "#FD4142" }} />
+          <CastButton style={{ marginRight: 10, width: 24, height: 24, tintColor: "brightred" }} />
           <TouchableOpacity onPress={navigation.getParam("navigateToSettings")}>
             <Icon
               style={{ marginRight: 10 }}
