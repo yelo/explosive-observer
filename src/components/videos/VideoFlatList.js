@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Linking, Alert, NetInfo } from "react-native";
+import { StyleSheet, View, Linking, Alert, NetInfo, FlatList } from "react-native";
 import { observer } from "mobx-react";
-import { FlatList } from "react-native-gesture-handler";
 import VideoItem from "./VideoItem";
 import {
   getGlobalVideoQuality,
@@ -12,7 +11,6 @@ import {
 import { getVideoEndpoint } from "../../utils/ApiEndpoints";
 import GoogleCast from "react-native-google-cast";
 
-
 class VideoFlatList extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +20,17 @@ class VideoFlatList extends React.Component {
   }
 
   onRefresh = () => {
-    console.log("refreshing");
+    this.setState({ isFetching: true });
+    this.refreshVideos();
+  };
+
+  refreshVideos = async () => {
+    await this.props.videos.load(this.props.showId);
+    this.setState({ isFetching: false });
+  }
+
+  onEndReached = () => {
+    this.props.videos.fetchNext(this.props.showId);
   };
 
   launchExternalSite = url => {
@@ -145,10 +153,12 @@ class VideoFlatList extends React.Component {
     return (
       <View style={styles.listViewStyle}>
         <FlatList
-          onRefresh={this.onRefresh}
+          onEndReached={() => this.onEndReached()}
+          onEndReachedThreshold={0.5}
+          onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
           data={this.props.videos.results.slice()}
-          renderItem={({item}) => this.renderVideoItem(item)}
+          renderItem={({ item }) => this.renderVideoItem(item)}
           keyExtractor={(_item, index) => index.toString()}
         />
       </View>

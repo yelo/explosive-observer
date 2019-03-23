@@ -12,13 +12,14 @@ export const GBShows = types
     number_of_total_results: types.maybe(types.number),
     status_code: types.maybe(types.number),
     results: types.optional(types.array(GBShow), []),
-    version: types.maybe(types.string)
+    version: types.maybe(types.string),
+    page: 0,
   })
   .actions(self => ({
-    load: flow(function* load(favs, offset = 0) {
+    load: flow(function* load(favs) {
       getAuthData().then(token => {
         const endpoint = getApiEndpoint(
-          `/video_shows/?field_list=title,image,deck,id&sort=title:asc&offset=${offset}`,
+          `/video_shows/?field_list=title,image,deck,id&sort=title:asc&offset=0`,
           token.token
         );
         fetch(endpoint)

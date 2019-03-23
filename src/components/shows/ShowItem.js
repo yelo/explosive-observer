@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default class ShowItem extends React.Component {
+export default class ShowItem extends React.PureComponent {
   render() {
     return (
       <View style={styles.listItem}>

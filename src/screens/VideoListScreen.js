@@ -81,11 +81,10 @@ class VideoListScreen extends React.Component {
       <View>
         <VideoFlatList
           videos={this.state.videos}
+          showId={this.props.navigation.getParam("id", 0)}
           navigation={this.props.navigation}
-          playVideo={this.playVideo}
-          launchExternalSite={this.launchExternalSite}
         />
-        <ChromeCastControl />
+        {/* <ChromeCastControl /> */}
       </View>
     );
   }

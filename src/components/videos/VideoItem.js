@@ -3,7 +3,7 @@ import { Text, StyleSheet, ImageBackground, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default class VideoItem extends React.Component {
+export default class VideoItem extends React.PureComponent {
   render() {
     return (
       <View style={styles.listItem}>
