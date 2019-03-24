@@ -22,8 +22,8 @@ class ShowSectionList extends React.Component {
   }
 
   componentWillUnmount() {
-    if (liveCheckInterval) {
-      clearTimeout(liveCheckInterval);
+    if (this.liveCheckInterval) {
+      clearTimeout(this.liveCheckInterval);
     }
   }
 
