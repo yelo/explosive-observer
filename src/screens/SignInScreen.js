@@ -61,9 +61,9 @@ export default class SignInScreen extends React.Component {
             Login and enter the code displayed below into the input field, then
             tap 'Continue' to begin the authentication
           </Text>
-          <View style={styles.webView}>
+          <View style={styles.webViewContainer}>
             <WebView
-              style={{ backgroundColor: "#333" }}
+              style={styles.webView}
               source={{ uri: getAppCodeUrl() }}
             />
           </View>
@@ -90,7 +90,7 @@ export default class SignInScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  webView: {
+  webViewContainer: {
     flex: 1,
     height: "50%",
     width: "100%",
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     borderColor: "#333",
     borderWidth: 5
   },
+  webView: { backgroundColor: "#333" },
   infoText: {
     color: "#eee"
   },

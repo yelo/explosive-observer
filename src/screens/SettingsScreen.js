@@ -150,7 +150,7 @@ export default class SettingsScreen extends React.Component {
             {!this.isIos && (
               <Picker
                 selectedValue={this.state.globalVideoQuality}
-                style={{ height: 30, width: 100 }}
+                style={styles.picker}
                 itemStyle={styles.qualityString}
                 onValueChange={(itemValue, itemIndex) =>
                   this.setVideoQuality(itemValue)
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     padding: 0,
     backgroundColor: "#261B2D"
   },
+  picker: { height: 30, width: 100 },
   itemHolder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: "#ccc"

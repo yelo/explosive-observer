@@ -7,12 +7,18 @@ export default class NonShowItem extends React.Component {
   render() {
     return (
       <View style={styles.listItemNonShow}>
-        <View style={{ width: 24 }}>
-          <Icon name={this.props.item.icon} size={25} color={this.props.item.color} />
+        <View style={styles.listItemIcon}>
+          <Icon
+            name={this.props.item.icon}
+            size={25}
+            color={this.props.item.color}
+          />
         </View>
         <View style={styles.singleFlex}>
           <TouchableOpacity onPress={this.props.item.action}>
-            <Text style={styles.listItemNonShowText}>{this.props.item.title}</Text>
+            <Text style={styles.listItemNonShowText}>
+              {this.props.item.title}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -28,14 +34,17 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: "#18121D",
-    alignContent: "stretch",
+    alignContent: "stretch"
+  },
+  listItemIcon: {
+    width: 24
   },
   listItemNonShowText: {
     marginLeft: 8,
     fontSize: 20,
-    color: "#eee",
+    color: "#eee"
   },
   singleFlex: {
     flex: 1
-  },
+  }
 });

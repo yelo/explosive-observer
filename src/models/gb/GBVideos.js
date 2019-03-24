@@ -6,14 +6,14 @@ import { getApiEndpoint } from "../../utils/ApiEndpoints";
 
 export const GBVideos = types
   .model("GBVideos", {
-    error: types.maybe(types.string),
-    limit: types.maybe(types.number),
-    offset: types.maybe(types.number),
-    number_of_page_results: types.maybe(types.number),
-    number_of_total_results: types.maybe(types.number),
-    status_code: types.maybe(types.number),
+    error: types.maybeNull(types.string),
+    limit: types.maybeNull(types.number),
+    offset: types.maybeNull(types.number),
+    number_of_page_results: types.maybeNull(types.number),
+    number_of_total_results: types.maybeNull(types.number),
+    status_code: types.maybeNull(types.number),
     results: types.optional(types.array(GBVideo), []),
-    version: types.maybe(types.string),
+    version: types.maybeNull(types.string),
   })
   .actions(self => ({
     load: flow(function* load(id, offset = 0, limit = 15) {

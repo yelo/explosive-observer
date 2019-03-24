@@ -31,7 +31,7 @@ const AppStack = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: "#261B2D",
+        backgroundColor: "#261B2D"
       },
       headerTintColor: "#FD4142",
       headerTitleStyle: {
@@ -61,7 +61,7 @@ export default class App extends React.Component {
     return (
       <SafeAreaView
         style={styles.container}
-        forceInset={{ bottom: "never", top: "never",}}
+        forceInset={{ bottom: "never", top: "never" }}
       >
         <StatusBar barStyle="light-content" />
         <AppContainer />

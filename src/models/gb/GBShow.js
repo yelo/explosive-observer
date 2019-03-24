@@ -8,10 +8,10 @@ import {
 
 export const GBShow = types
   .model("GBShow", {
-    deck: types.maybe(types.string),
-    id: types.maybe(types.number),
-    title: types.maybe(types.string),
-    image: types.maybe(GBImage),
+    deck: types.maybeNull(types.string),
+    id: types.maybeNull(types.number),
+    title: types.maybeNull(types.string),
+    image: types.maybeNull(GBImage),
     isFavorite: false
   })
   .actions(self => ({

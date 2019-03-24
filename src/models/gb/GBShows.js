@@ -5,14 +5,14 @@ import { GBShow } from "./GBShow";
 
 export const GBShows = types
   .model("GBShows", {
-    error: types.maybe(types.string),
-    limit: types.maybe(types.number),
+    error: types.maybeNull(types.string),
+    limit: types.maybeNull(types.number),
     offset: 0,
-    number_of_page_results: types.maybe(types.number),
-    number_of_total_results: types.maybe(types.number),
-    status_code: types.maybe(types.number),
+    number_of_page_results: types.maybeNull(types.number),
+    number_of_total_results: types.maybeNull(types.number),
+    status_code: types.maybeNull(types.number),
     results: types.optional(types.array(GBShow), []),
-    version: types.maybe(types.string),
+    version: types.maybeNull(types.string),
     page: 0,
   })
   .actions(self => ({

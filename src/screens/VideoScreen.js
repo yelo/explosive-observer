@@ -62,6 +62,7 @@ export default class VideoScreen extends React.Component {
           onLoad={this.onLoad}
           style={styles.backgroundVideo}
           controls={true}
+          ignoreSilentSwitch={"ignore"}
         />
       </View>
     );
