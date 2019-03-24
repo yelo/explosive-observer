@@ -16,6 +16,10 @@ export default class VideoScreen extends React.Component {
     isLoading: true
   };
 
+  componentWillUnmount() {
+    this.player = null;
+  }
+
   onLoad = () => {
     const resume = this.props.navigation.getParam("resume", false);
     const savedTime = this.props.navigation.getParam("savedTime", 0);
@@ -39,10 +43,6 @@ export default class VideoScreen extends React.Component {
       });
     });
   };
-
-  componentWillUnmount() {
-    this.player = null;
-  }
 
   render() {
     return (

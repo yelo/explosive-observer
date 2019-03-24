@@ -9,6 +9,7 @@ export default class LiveVideoItem extends React.PureComponent {
   componentDidMount() {
     console.log("this.props.video", this.props.video);
   }
+
   render() {
     if (this.state.hide) return null;
     return (

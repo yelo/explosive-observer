@@ -1,5 +1,5 @@
 import { types, flow, applySnapshot } from "mobx-state-tree";
-import { getAuthData } from "../../utils/DataStorage";
+import { getAuthData, getFavoriteShows } from "../../utils/DataStorage";
 import { getApiEndpoint } from "../../utils/ApiEndpoints";
 import { GBShow } from "./GBShow";
 
@@ -16,7 +16,7 @@ export const GBShows = types
     page: 0,
   })
   .actions(self => ({
-    load: flow(function* load(favs) {
+    load: flow(function* load() {
       getAuthData().then(token => {
         const endpoint = getApiEndpoint(
           `/video_shows/?field_list=title,image,deck,id&sort=title:asc&offset=0`,
@@ -25,16 +25,18 @@ export const GBShows = types
         fetch(endpoint)
           .then(response => response.json())
           .then(shows => {
-            shows.results.forEach(s => {
-              s.isFavorite = favs.indexOf(s.id) >= 0;
+            getFavoriteShows().then(favorites => {
+              shows.results.forEach(s => {
+                s.isFavorite = favorites.indexOf(s.id) >= 0;
+              });
+              applySnapshot(self, shows)
             });
-            applySnapshot(self, shows)
           });
       });
     }),
   }))
   .views(self => {
-    function favorites(favs) {
+    function favorites() {
       return self.results.filter(s => s.isFavorite);
     }
     function all() {

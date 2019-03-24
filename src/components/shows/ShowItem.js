@@ -10,7 +10,10 @@ export default class ShowItem extends React.PureComponent {
         <View style={styles.singleFlex}>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate("Videos", { id: this.props.show.id, title: this.props.show.title })
+              this.props.navigation.navigate("Videos", {
+                id: this.props.show.id,
+                title: this.props.show.title
+              })
             }
           >
             <Text style={styles.listItemText}>{this.props.show.title}</Text>
@@ -46,5 +49,5 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     color: "#eee"
-  },
+  }
 });

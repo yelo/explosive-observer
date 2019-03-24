@@ -24,5 +24,7 @@ export function getVideoEndpoint(target, accessToken) {
 export async function getLiveVideo() {
   const token = await getAuthData();
   const endpoint = getApiEndpoint("/video/current-live/?", token.token);
-  return await fetch(endpoint).then(res => res.json()).then(live => live.video);
+  return await fetch(endpoint)
+    .then(res => res.json())
+    .then(live => live.video);
 }

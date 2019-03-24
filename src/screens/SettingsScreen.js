@@ -44,18 +44,6 @@ export default class SettingsScreen extends React.Component {
     this._setupSettings();
   }
 
-  _setupSettings = async () => {
-    const globalVideoQuality = await getGlobalVideoQuality();
-    const downloadOverMobile = await getDownloadOverMobile();
-    const forceLowOnMobile = await getForceLowOnMobile();
-    this.setState({ globalVideoQuality: globalVideoQuality || "low" });
-    this.setState({ downloadOverMobile: downloadOverMobile || false });
-    this.setState({ forceLowOnMobile: forceLowOnMobile || false });
-    this.setState({
-      qualityString: this.getVideoQualityString(this.state.globalVideoQuality)
-    });
-  };
-
   setVideoQuality = globalVideoQuality => {
     setGlobalVideoQuality(globalVideoQuality).then(() => {
       this.setState({ globalVideoQuality });
@@ -104,6 +92,18 @@ export default class SettingsScreen extends React.Component {
           action: NavigationActions.navigate({ routeName: "SignIn" })
         })
       );
+    });
+  };
+
+  _setupSettings = async () => {
+    const globalVideoQuality = await getGlobalVideoQuality();
+    const downloadOverMobile = await getDownloadOverMobile();
+    const forceLowOnMobile = await getForceLowOnMobile();
+    this.setState({ globalVideoQuality: globalVideoQuality || "low" });
+    this.setState({ downloadOverMobile: downloadOverMobile || false });
+    this.setState({ forceLowOnMobile: forceLowOnMobile || false });
+    this.setState({
+      qualityString: this.getVideoQualityString(this.state.globalVideoQuality)
     });
   };
 

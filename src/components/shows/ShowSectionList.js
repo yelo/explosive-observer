@@ -7,6 +7,8 @@ import LiveVideoItem from "../LiveVideoItem";
 import { getLiveVideo } from "../../utils/ApiEndpoints";
 
 class ShowSectionList extends React.Component {
+  liveCheckInterval = null;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,8 +16,6 @@ class ShowSectionList extends React.Component {
       liveVideo: null
     };
   }
-
-  liveCheckInterval = null;
 
   componentDidMount() {
     this._checkForLiveShow();
@@ -26,13 +26,6 @@ class ShowSectionList extends React.Component {
       clearTimeout(liveCheckInterval);
     }
   }
-
-  _checkForLiveShow = async () => {
-    this.setState({ liveVideo: await getLiveVideo() });
-    this.liveCheckInterval = setInterval(async () => {
-      this.setState({ liveVideo: await getLiveVideo() });
-    }, 1000 * 60 * 10);
-  };
 
   renderSectionHeader = section => {
     if (section.data.length === 0) return null;
@@ -58,6 +51,13 @@ class ShowSectionList extends React.Component {
 
   renderLiveItem = ({ item, index, section: { title, data, navigation } }) => {
     return item;
+  };
+
+  _checkForLiveShow = async () => {
+    this.setState({ liveVideo: await getLiveVideo() });
+    this.liveCheckInterval = setInterval(async () => {
+      this.setState({ liveVideo: await getLiveVideo() });
+    }, 1000 * 60 * 10);
   };
 
   render() {

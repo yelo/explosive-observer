@@ -6,7 +6,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { onSnapshot } from "mobx-state-tree";
 import FullLoader from "../components/FullLoader";
 import ShowSectionList from "../components/shows/ShowSectionList";
-import { getFavoriteShows } from "../utils/DataStorage";
 
 class ShowListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -46,9 +45,7 @@ class ShowListScreen extends React.Component {
     onSnapshot(shows, () => {
       this.setState({ shows, isLoading: false });
     });
-    getFavoriteShows().then(favs => {
-      shows.load(favs || []);
-    });
+    shows.load();
   };
 
   _navigateToSettings = () => {

@@ -13,7 +13,7 @@ export const GBVideos = types
     number_of_total_results: types.maybeNull(types.number),
     status_code: types.maybeNull(types.number),
     results: types.optional(types.array(GBVideo), []),
-    version: types.maybeNull(types.string),
+    version: types.maybeNull(types.string)
   })
   .actions(self => ({
     load: flow(function* load(id, offset = 0, limit = 15) {

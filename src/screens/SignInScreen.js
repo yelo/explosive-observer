@@ -27,6 +27,7 @@ export default class SignInScreen extends React.Component {
       }
     };
   };
+
   state = {
     appCode: null,
     isLoading: false

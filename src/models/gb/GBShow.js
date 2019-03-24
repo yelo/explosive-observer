@@ -3,7 +3,6 @@ import { GBImage } from "./GBImage";
 import {
   addShowToFavorites,
   removeShowFromFavorites,
-  getFavoriteShows
 } from "../../utils/DataStorage";
 
 export const GBShow = types

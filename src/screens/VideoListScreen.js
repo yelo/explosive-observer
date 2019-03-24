@@ -61,16 +61,16 @@ class VideoListScreen extends React.Component {
     GoogleCast.showIntroductoryOverlay();
   }
 
-  _navigateToSettings = () => {
-    this.props.navigation.navigate("Settings");
-  };
-
   setupVideos = async id => {
     const videos = GBVideos.create();
     onSnapshot(videos, () => {
       this.setState({ videos, isLoading: false });
     });
     await videos.load(id);
+  };
+
+  _navigateToSettings = () => {
+    this.props.navigation.navigate("Settings");
   };
 
   render() {
