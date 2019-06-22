@@ -26,9 +26,11 @@ export const GBShows = types
           .then(response => response.json())
           .then(shows => {
             getFavoriteShows().then(favorites => {
-              shows.results.forEach(s => {
-                s.isFavorite = favorites.indexOf(s.id) >= 0;
-              });
+              if (favorites) {
+                shows.results.forEach(s => {
+                  s.isFavorite = favorites.indexOf(s.id) >= 0;
+                });
+              }
               applySnapshot(self, shows)
             });
           });

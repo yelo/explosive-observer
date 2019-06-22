@@ -58,7 +58,7 @@ class VideoListScreen extends React.Component {
     this.props.navigation.setParams({
       navigateToSettings: this._navigateToSettings
     });
-    GoogleCast.showIntroductoryOverlay();
+    // GoogleCast.showIntroductoryOverlay();
   }
 
   setupVideos = async id => {

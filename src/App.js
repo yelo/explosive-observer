@@ -20,12 +20,14 @@ import VideoListScreen from "./screens/VideoListScreen";
 import VideoScreen from "./screens/VideoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SignInScreen from "./screens/SignInScreen";
+import LiveVideoScreen from "./screens/LiveVideoScreen";
 
 const AppStack = createStackNavigator(
   {
     Shows: ShowListScreen,
     Videos: VideoListScreen,
     Video: VideoScreen,
+    LiveVideo: LiveVideoScreen,
     Settings: SettingsScreen
   },
   {

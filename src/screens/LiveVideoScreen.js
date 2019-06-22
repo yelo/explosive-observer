@@ -2,11 +2,9 @@ import React from "react";
 import { StyleSheet, View, Platform } from "react-native";
 import Video from "react-native-video";
 import FullLoader from "../components/FullLoader";
-import { getApiEndpoint } from "../utils/ApiEndpoints";
-import { getAuthData } from "../utils/DataStorage";
 import VideoPlayer from "react-native-video-controls";
 
-export default class VideoScreen extends React.Component {
+export default class LiveVideoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam("title", "Video")
@@ -19,37 +17,16 @@ export default class VideoScreen extends React.Component {
 
   isIos = Platform.OS === "ios";
 
+  componentDidMount() {
+      console.log("is ios?", this.isIos)
+  }
+
   componentWillUnmount() {
     this.player = null;
   }
 
   onLoad = () => {
-    const resume = this.props.navigation.getParam("resume", false);
-    const savedTime = this.props.navigation.getParam("savedTime", 0);
-    console.log("this.player", this.player);
-    if (!this.isIos) {
-      this.player.player.ref.seek(resume ? savedTime : 0);
-    } else {
-      this.player.seek(resume ? savedTime : 0);
-    }
     this.setState({ isLoading: false });
-  };
-
-  onProgress = event => {
-    if (event.currentTime <= 0) return;
-
-    const video = this.props.navigation.getParam("video", null);
-    getAuthData().then(token => {
-      let endpoint = getApiEndpoint(
-        `/video/save-time/?video_id=${video.id}&time_to_save=${
-          event.currentTime
-        }`,
-        token.token
-      );
-      fetch(endpoint).then(() => {
-        video.updateSavedTime(event.currentTime);
-      });
-    });
   };
 
   render() {
@@ -63,11 +40,6 @@ export default class VideoScreen extends React.Component {
         {this.isIos && (
           <Video
             source={{ uri: this.props.navigation.getParam("url", null) }}
-            ref={ref => {
-              this.player = ref;
-            }}
-            progressUpdateInterval={1000 * 10}
-            onProgress={this.onProgress}
             onLoad={this.onLoad}
             style={styles.backgroundVideo}
             controls={true}
@@ -76,16 +48,14 @@ export default class VideoScreen extends React.Component {
         )}
         {!this.isIos && (
           <VideoPlayer
-            ref={ref => {
-              this.player = ref;
-            }}
+          ref={ref => {
+            this.player = ref;
+          }}
             source={{ uri: this.props.navigation.getParam("url", null) }}
             onBack={this.props.navigation.goBack}
             onLoad={this.onLoad}
             showOnStart={false}
-            progressUpdateInterval={1000 * 10}
-            onProgress={this.onProgress}
-            toggleResizeModeOnFullscreen={true}
+            toggleResizeModeOnFullscreen={false}
           />
         )}
       </View>
@@ -97,7 +67,8 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    flex: 1
+    flex: 1,
+    backgroundColor: "#000"
   },
   spinnerHolder: {
     top: 0,

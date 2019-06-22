@@ -56,7 +56,7 @@ export default class SignInScreen extends React.Component {
       return <FullLoader />;
     }
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <KeyboardAvoidingView style={styles.container} behavior="height" enabled>
         <View style={styles.container}>
           <Text style={styles.infoText}>
             Login and enter the code displayed below into the input field, then

@@ -34,7 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactVideoPackage(),
             new VectorIconsPackage(),
             new AsyncStoragePackage(),
-            new RNGestureHandlerPackage(),
+            new RNGestureHandlerPackage()
       );
     }
 

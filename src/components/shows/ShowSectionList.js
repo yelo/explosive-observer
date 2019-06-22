@@ -64,7 +64,7 @@ class ShowSectionList extends React.Component {
     const liveItem = {
       title: "Live",
       data: this.state.liveVideo
-        ? [<LiveVideoItem video={this.state.liveVideo} />]
+        ? [<LiveVideoItem video={this.state.liveVideo} navigation={this.props.navigation} />]
         : [],
       renderItem: this.renderLiveItem
     };
