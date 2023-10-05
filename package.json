@@ -12,7 +12,7 @@
     "mobx-react": "^5.4.3",
     "mobx-state-tree": "^3.11.0",
     "react": "16.8.3",
-    "react-native": "0.59.1",
+    "react-native": "0.72.5",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-google-cast": "^3.1.1",
     "react-native-image-cache-hoc": "^2.0.0",
